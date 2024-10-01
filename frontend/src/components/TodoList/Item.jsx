@@ -21,7 +21,7 @@ const Item = ({ id, name, finished }) => {
           setCompleted(!completed);
         }}
       >
-        {completed ? "✅️" : "❌"}
+        {!completed ? "✅️" : "❌"}
       </button>
     </div>
   );

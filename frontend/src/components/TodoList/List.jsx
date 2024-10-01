@@ -1,18 +1,24 @@
+import useSWR from "swr";
+import fetcher from "../../libs/fetcher";
+
+import Item from "./Item";
 import { useEffect } from "react";
 
-import data from "../../libs/mock";
-import Item from "./Item";
-
 const List = () => {
-  useEffect(() => {}, []);
+  const { data, error, isLoading } = useSWR("/tasks", fetcher);
+
+  useEffect(() => {
+    console.log(data);
+  }, [isLoading]);
 
   return (
     <ul>
-      {data.map((el) => {
-        {
-          return <Item id={el.id} name={el.name} finished={el.completed} />;
-        }
-      })}
+      {!isLoading &&
+        data.map((el) => {
+          {
+            return <Item id={el.id} name={el.name} finished={el.completed} />;
+          }
+        })}
     </ul>
   );
 };
