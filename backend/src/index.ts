@@ -1,10 +1,10 @@
 import "dotenv/config";
-import express from "express";
+import express, { Request } from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import cors from "cors";
 
-import routes from "./routes/index.route.js";
+import routes from "./routes/index.route";
 import { StatusCodes } from "http-status-codes";
 
 const PORT = process.env.PORT || 3000;
@@ -21,7 +21,7 @@ app.use(morgan("dev"));
 app.use("/api", routes);
 
 mongoose
-  .connect(process.env.MONGO_URL)
+  .connect(process.env.MONGO_URL || "")
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Running on: http://localhost:${PORT}`);
@@ -29,6 +29,6 @@ mongoose
   })
   .catch((err) => console.log(err));
 
-app.get("*", (req, res, next) => {
+app.get("*", (req: Request, res, next) => {
   res.sendStatus(StatusCodes.NOT_FOUND);
 });

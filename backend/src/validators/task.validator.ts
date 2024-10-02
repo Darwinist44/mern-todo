@@ -1,4 +1,4 @@
-import { object } from "joi";
+import Joi, { object } from "joi";
 
 export default object({
   priority: Joi.string().required(),
