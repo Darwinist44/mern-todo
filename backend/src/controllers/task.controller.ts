@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import Task from "../models/task.model";
+import Task from "../models/user.model";
 import { StatusCodes } from "http-status-codes";
 import taskModel from "../models/task.model";
 import { Error } from "mongoose";

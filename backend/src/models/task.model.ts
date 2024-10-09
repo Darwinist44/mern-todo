@@ -3,13 +3,15 @@ import { Schema, model } from "mongoose";
 const taskSchema = new Schema({
 	priority: {
 		type: String,
-		enum: ["high", "medium", "low"],
+		enum: ["low", "medium", "high"],
 		required: true,
 	},
-	title: { type: String, maxlength: 32, required: true },
-	completed: { type: Boolean, default: false },
+	title: { type: String, required: true },
 	description: { type: String },
-	due: { type: Date, required: true },
+	completed: { type: Boolean, default: false },
+	dueDate: { type: Date, required: true },
 });
 
-export default model("Task", taskSchema);
+const Task = model("Task", taskSchema);
+
+export default Task;

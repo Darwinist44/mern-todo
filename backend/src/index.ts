@@ -1,43 +1,16 @@
 import "dotenv/config";
-import express, { Request } from "express";
-import mongoose from "mongoose";
-import morgan from "morgan";
-import cors from "cors";
-import compression from "compression";
-
-import routes from "./routes/index.route";
-import { StatusCodes } from "http-status-codes";
-import rateLimit from "express-rate-limit";
+import createApp from "./app";
+import logger from "./utils/logger";
 
 const PORT = process.env.PORT || 3000;
-const app = express();
 
-var corsOptions = {
-	origin: "*",
-};
-
-const limiter = rateLimit({
-	windowMs: 1000,
-	limit: 1,
-});
-
-app.use(cors(corsOptions));
-app.use(express.json());
-app.use(morgan("dev"));
-app.use(limiter);
-//app.use(compression());
-
-app.use("/api", routes);
-
-mongoose
-	.connect(process.env.MONGO_URL || "")
-	.then(() => {
+createApp(process.env.MONGO_URI || "")
+	.then((app) => {
 		app.listen(PORT, () => {
 			console.log(`Running on: http://localhost:${PORT}`);
+			console.log(`Environment: ${process.env.NODE_ENV}`);
 		});
 	})
-	.catch((err) => console.log(err));
-
-app.get("*", (req: Request, res, next) => {
-	res.sendStatus(StatusCodes.NOT_FOUND);
-});
+	.catch((err) => {
+		console.log(err);
+	});
